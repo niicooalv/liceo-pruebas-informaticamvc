@@ -27,6 +27,7 @@ public class AlumnoController {
     public String listarAlumnos(Model model) {
         List<Alumno> alumnos = alumnoService.getAlumnos();
         model.addAttribute("alumnos", alumnos);
+        System.out.println("ALUMNOS => " + alumnos);
         return "alumnosindex";
     }
 
@@ -46,6 +47,7 @@ public class AlumnoController {
         model.addAttribute("generos", Genero.values());
         model.addAttribute("disposiciones", Disposicion.values());
         model.addAttribute("alumno", alumnoService.getAlumnoById(id));
+        System.out.println("ALUMNO DETALLE => " + alumnoService.getAlumnoById(id));
         return "alumnodetalle";
     }
 
@@ -56,6 +58,13 @@ public class AlumnoController {
         alumnoService.deleteAlumno(id);
         
         return "redirect:/alumnos/list";
+    }
+
+    @GetMapping("/{idAlumno}/asignatura/{idAsignatura}")
+    public String eliminarAsignaturaDeAlumno(@PathVariable("idAlumno") Long idAlumno, @PathVariable("idAsignatura") Long idAsignatura ,Model model) {
+        System.out.println("ASIGNATURAS DEL ALUMNO: " + alumnoService.getAlumnoById(idAlumno));
+        alumnoService.deleteAsignaturaDeAlumno(idAlumno, idAsignatura);
+        return "redirect:/alumnos/detalle/" + idAlumno;
     }
 
 
